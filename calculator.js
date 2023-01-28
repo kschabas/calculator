@@ -87,47 +87,10 @@ function processEquals() {
 }
 
 function initializeCalc() {
-    var button = document.querySelector('#one');
-    button.addEventListener('click',(e) => processKey('1'));
-
-    button = document.querySelector('#two');
-    button.addEventListener('click',(e) => processKey('2'));
-
-    button = document.querySelector('#three');
-    button.addEventListener('click',(e) => processKey('3'));
-
-    button = document.querySelector('#four');
-    button.addEventListener('click',(e) => processKey('4'));
-
-    button = document.querySelector('#five');
-    button.addEventListener('click',(e) => processKey('5'));
-
-    button = document.querySelector('#six');
-    button.addEventListener('click',(e) => processKey('6'));
-
-    button = document.querySelector('#seven');
-    button.addEventListener('click',(e) => processKey('7'));
-
-    button = document.querySelector('#eight');
-    button.addEventListener('click',(e) => processKey('8'));
-
-    button = document.querySelector('#nine');
-    button.addEventListener('click',(e) => processKey('9'));
-
-    button = document.querySelector('#add');
-    button.addEventListener('click',(e) => processKey('+'));
-
-    button = document.querySelector('#subtract');
-    button.addEventListener('click',(e) => processKey('-'));
-
-    button = document.querySelector('#multiply');
-    button.addEventListener('click',(e) => processKey('*'));
-
-    var button = document.querySelector('#divide');
-    button.addEventListener('click',(e) => processKey('/'));
-
-    var button = document.querySelector('#equal');
-    button.addEventListener('click',(e) => processKey('='));
-
+    var buttons = document.querySelectorAll('button');
+    buttons.forEach( button => {
+        button.addEventListener('click', (e) =>processKey(`${button.getAttribute('data-key')}`));
+    });
 }
+
 

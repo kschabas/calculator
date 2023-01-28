@@ -61,6 +61,6 @@ button {
     text-align: center;
 }
 
-button#clear {
-    padding: 1px;
+button.clear {
+    padding: 2px;
 }
