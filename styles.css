@@ -16,7 +16,7 @@ h1 {
     border-style: solid;
 }
 
-.display {
+div.display {
     background-color: whitesmoke;
     text-align: right;
     height: 30px;
@@ -24,6 +24,8 @@ h1 {
     border-style: solid;
     margin: auto;
     margin-bottom: 30px;
+    font-size: 18px;
+    padding: 10px 5px 2px 2px;
 }
 
 .buttons {
