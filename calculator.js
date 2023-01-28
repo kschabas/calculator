@@ -30,12 +30,17 @@ var a = "";
 var aPresent = false;
 var b = "";
 var operator = "";
-var bPresent = false;
+var fluxMode = false;
 
 initializeCalc();
 
 function processKey(key) {
     if (key >='0' && key <='9') {
+        if (fluxMode) {
+            a = "";
+            b = "";
+            aPresent = false;
+        }
         if (!aPresent) {
             a += key;
             displayMessage(a);
@@ -54,6 +59,7 @@ function processKey(key) {
     if (key == 'Clear') {
         clear();
     }
+    fluxMode = false;
 }
 
 function processOperator(key) {
@@ -74,9 +80,10 @@ function processEquals() {
     if (!a || !b || !operator) displayMessage("ERROR!");
     var num = operate(a,b,operator);
     displayMessage(num);
-    a = "";
+    a = num;
     b = "";
     aPresent = false;
+    fluxMode = true;
 }
 
 function initializeCalc() {
