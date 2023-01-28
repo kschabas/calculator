@@ -37,6 +37,7 @@ initializeCalc();
 
 function processKey(key) {
     if (key >='0' && key <='9') {
+        setTransition(key);
         if (fluxMode) {
             a = "";
             b = "";
@@ -53,14 +54,28 @@ function processKey(key) {
         fluxMode = false;
     }
     if (key == '+' || key == '-' || key == '*' || key == '/') {
+        setTransition(key);
         processOperator(key);
         fluxMode = false;
     }
-    if (key == '=') {
+    if (key == '=' || key ==="Enter" ) {
+        setTransition('=')
         processEquals();
     }
-    if (key == 'clear') {
+    if (key == 'clear' || key == 'c') {
+        setTransition('clear');
         resetCalc();
+    }
+    if (key == 'Backspace') {
+        if (!aPresent && a.length > 0) {
+            a = a.substring(0,a.length-1);
+            displayMessage(a);
+        }
+        else if (b.length>0)
+        {
+            b = b.substring(0,b.length-1);
+            displayMessage(b);
+        }
     }
 }
 
@@ -106,11 +121,18 @@ function initializeCalc() {
     var buttons = document.querySelectorAll('button');
     buttons.forEach( button => {
         button.addEventListener('click', (e) => {
-            button.classList.add('pushed');
             processKey(`${button.getAttribute('data-key')}`);
         });
         button.addEventListener('transitionend', (e) => endTransition(e.target) );
     });
+    document.addEventListener('keydown', (e) => {
+        processKey(e.key);
+    });
+}
+
+function setTransition(key) {
+    var button = document.querySelector(`[data-key="${key}"]`);
+    button.classList.add('pushed');
 }
 
 function endTransition(button) {
