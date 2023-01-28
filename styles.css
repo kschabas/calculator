@@ -59,8 +59,14 @@ button {
     margin: 3px;
     flex: 0 0 auto;
     text-align: center;
+    transition: all .07s ease;
 }
 
 button.clear {
     padding: 2px;
+}
+
+button.pushed {
+    border-color: orange;
+    transform: scale(1.1);
 }

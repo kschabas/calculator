@@ -1,6 +1,6 @@
 function operate(a,b,operator) {
-    aint = parseInt(a);
-    bint = parseInt(b);
+    aint = parseFloat(a);
+    bint = parseFloat(b);
     switch (operator) {
         case '+':
             return aint + bint;
@@ -12,7 +12,8 @@ function operate(a,b,operator) {
             return aint * bint;
 
         case '/':
-            return aint / bint;
+            if (bint == 0) return NaN;
+            return Math.round(aint / bint * 10000000)/10000000;
 
         default:
             return NaN;
@@ -49,17 +50,27 @@ function processKey(key) {
             b += key;
             displayMessage(b);
         }
+        fluxMode = false;
     }
     if (key == '+' || key == '-' || key == '*' || key == '/') {
         processOperator(key);
+        fluxMode = false;
     }
     if (key == '=') {
         processEquals();
     }
-    if (key == 'Clear') {
-        clear();
+    if (key == 'clear') {
+        resetCalc();
     }
+}
+
+function resetCalc() {
+    a = "";
+    b = "";
+    operator = "";
     fluxMode = false;
+    aPresent = false;
+    displayMessage("");
 }
 
 function processOperator(key) {
@@ -69,7 +80,8 @@ function processOperator(key) {
     }
     else {
         var num = operate(a,b,operator);
-        displayMessage(num);
+        if (num == NaN) displayMessage("ERROR!");
+        else displayMessage(num);
         a = num;
         b = "";
         operator = key;
@@ -77,9 +89,13 @@ function processOperator(key) {
 }
 
 function processEquals() {
-    if (!a || !b || !operator) displayMessage("ERROR!");
+    if (!a || !b || !operator) {
+        displayMessage("ERROR!");
+        return;
+    }
     var num = operate(a,b,operator);
-    displayMessage(num);
+    if (isNaN(num)) displayMessage("ERROR!");
+    else displayMessage(num);
     a = num;
     b = "";
     aPresent = false;
@@ -89,8 +105,16 @@ function processEquals() {
 function initializeCalc() {
     var buttons = document.querySelectorAll('button');
     buttons.forEach( button => {
-        button.addEventListener('click', (e) =>processKey(`${button.getAttribute('data-key')}`));
+        button.addEventListener('click', (e) => {
+            button.classList.add('pushed');
+            processKey(`${button.getAttribute('data-key')}`);
+        });
+        button.addEventListener('transitionend', (e) => endTransition(e.target) );
     });
+}
+
+function endTransition(button) {
+    button.classList.remove('pushed');
 }
 
 
